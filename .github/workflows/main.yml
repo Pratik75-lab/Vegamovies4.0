@@ -8,9 +8,10 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Install Dependencies
         run: npm install
@@ -18,11 +19,11 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      - name: Deploy to InfinityFree
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.1
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: "ftpupload.net"
-          username: ${{ secrets.if0_38599885 }}
-          password: ${{ secrets.QoGyUxJsKpPW }}
-          local-dir: build/
-          server-dir: /htdocs/
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ${{ vars.BUILD_DIR }}/
+          server-dir: ${{ vars.FTP_PATH }}/
